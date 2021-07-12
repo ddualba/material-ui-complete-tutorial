@@ -25,7 +25,8 @@ function DatePicker({ name, label, value, onChange, error, helperText }) {
         value={value}
         onChange={date => onChange(convertToDefEventParam(name, date))}
         error={error}
-        helperText={helperText}
+        helperText={error && helperText}
+        autoOk={true}
       />
     </MuiPickersUtilsProvider>
   );

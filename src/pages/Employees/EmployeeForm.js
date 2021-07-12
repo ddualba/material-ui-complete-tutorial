@@ -17,7 +17,7 @@ const validationSchema = yup.object({
     .string('Enter your email')
     .email('Enter a valid email')
     .required('Email is required'),
-  hireDate: yup.date('Enter hire date').required('Hire date is required')
+  hireDate: yup.date().required('Required')
 });
 
 const genderItems = [
@@ -88,7 +88,7 @@ function EmployeeForm() {
             value={formik.values.hireDate}
             onChange={formik.handleChange}
             error={formik.touched.hireDate && Boolean(formik.errors.hireDate)}
-            helperText={formik.touched.hireDate && formik.errors.hireDate}
+            helperText={formik.touched.hireDate && 'Valid Date Required'}
           />
           <Controls.Checkbox
             name='isPermanent'
