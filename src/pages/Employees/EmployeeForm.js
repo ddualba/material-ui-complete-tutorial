@@ -1,54 +1,24 @@
 import React from 'react';
 // import  { useEffect } from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import { Form } from '../../components/controls/Form';
 import Controls from '../../components/controls/Controls';
 import * as employeeService from '../../services/employeeService';
-
-// const phoneRegExp =
-//   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
-
-const validationSchema = yup.object({
-  fullName: yup
-    .string('Enter your full name')
-    .required('Full Name is required'),
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
-  mobile: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .required('Phone number required'),
-  hireDate: yup.date().required('Required'),
-  departmentId: yup.string().required('Department required')
-});
-
-const genderItems = [
-  { id: 'male', title: 'Male' },
-  { id: 'female', title: 'Female' },
-  { id: 'other', title: 'Other' }
-];
+import {
+  validationSchema,
+  genderItems,
+  initialValues
+} from './EmployeeFormValidation';
 
 function EmployeeForm() {
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      fullName: '',
-      email: '',
-      mobile: '',
-      city: '',
-      gender: 'male',
-      departmentId: '',
-      hireDate: new Date(), // null,
-      isPermanent: false
-    },
+    initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      employeeService.insertEmployee(values);
+      resetForm(initialValues);
+      setSubmitting(false);
     }
   });
 

@@ -12,9 +12,9 @@ const Input = ({ name, label, value, onChange, error, helperText }) => {
       error={error}
       helperText={helperText}
       inputProps={{
-        autocomplete: 'new-password',
+        autoComplete: 'new-password',
         form: {
-          autocomplete: 'off'
+          autoComplete: 'off'
         }
       }}
     />
