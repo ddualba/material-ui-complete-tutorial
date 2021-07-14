@@ -1,7 +1,15 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 
-const Input = ({ name, label, value, onChange, error, helperText }) => {
+const Input = ({
+  name,
+  label,
+  value,
+  onChange,
+  error,
+  helperText,
+  ...other
+}) => {
   return (
     <TextField
       variant='outlined'
@@ -11,6 +19,7 @@ const Input = ({ name, label, value, onChange, error, helperText }) => {
       onChange={onChange}
       error={error}
       helperText={helperText}
+      {...other}
       inputProps={{
         autoComplete: 'new-password',
         form: {

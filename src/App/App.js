@@ -3,19 +3,19 @@ import './App.css';
 import SideMenu from '../components/SideMenu';
 import Header from '../components/Header';
 import { makeStyles, CssBaseline } from '@material-ui/core';
+
 import {
-  createTheme,
-  ThemeProvider
-  // responsiveFontSizes
+  MuiThemeProvider as ThemeProvider,
+  createMuiTheme as createTheme
 } from '@material-ui/core/styles';
 import Employees from '../pages/Employees/Employees';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#800080',
-      light: '#b491c8'
-    },
+    // primary: {
+    //   main: '#800080',
+    //   light: '#b491c8'
+    // },
     secondary: {
       main: '#f83245',
       light: '#f8324526'
