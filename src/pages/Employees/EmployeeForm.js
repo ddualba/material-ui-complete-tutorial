@@ -1,5 +1,4 @@
-import React from 'react';
-// import  { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Grid } from '@material-ui/core';
 import { Form } from '../../components/controls/Form';
@@ -11,12 +10,36 @@ import {
   initialValues
 } from './EmployeeFormValidation';
 
-function EmployeeForm() {
+// const initialValues = {
+//   id: 0,
+//   fullName: '',
+//   email: '',
+//   mobile: '',
+//   city: '',
+//   gender: 'male',
+//   departmentId: '',
+//   hireDate: new Date(), // null,
+//   isPermanent: false
+// };
+
+function EmployeeForm({ addOrEdit, recordForEdit }) {
+  const [formValues, setFormValues] = useState(initialValues);
+
+  useEffect(() => {
+    if (recordForEdit != null) {
+      setFormValues({
+        ...recordForEdit
+      });
+    }
+  }, [recordForEdit]);
+
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues: formValues,
     validationSchema: validationSchema,
+    enableReinitialize: true,
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      employeeService.insertEmployee(values);
+      // employeeService.insertEmployee(values);
+      addOrEdit(values);
       resetForm(initialValues);
       setSubmitting(false);
     }
