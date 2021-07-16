@@ -27,6 +27,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../components/Notification';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 import EditIcon from '@material-ui/icons/Edit'; // consider removing
 
@@ -147,11 +148,11 @@ function Employees() {
     setRecordForEdit(null);
     setOpenPopup(false); // close popUp
     setRecords(employeeService.getAllEmployees()); // fetch records again for... new/updated
-    // setNotify({
-    //   isOpen: true,
-    //   message: 'Submitted Successfully',
-    //   type: 'success'
-    // });
+    setNotify({
+      isOpen: true,
+      message: 'Submitted Successfully',
+      type: 'success'
+    });
   };
 
   const openInPopup = item => {
@@ -159,19 +160,19 @@ function Employees() {
     setOpenPopup(true);
   };
 
-  // const onDelete = id => {
-  //     setConfirmDialog({
-  //         ...confirmDialog,
-  //         isOpen: false
-  //     })
-  //     employeeService.deleteEmployee(id);
-  //     setRecords(employeeService.getAllEmployees())
-  //     setNotify({
-  //         isOpen: true,
-  //         message: 'Deleted Successfully',
-  //         type: 'error'
-  //     })
-  // }
+  const onDelete = id => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    });
+    employeeService.deleteEmployee(id);
+    setRecords(employeeService.getAllEmployees());
+    setNotify({
+      isOpen: true,
+      message: 'Deleted Successfully',
+      type: 'error'
+    });
+  };
 
   return (
     <>
@@ -223,7 +224,20 @@ function Employees() {
                   >
                     <EditOutlinedIcon fontSize='small' />
                   </Controls.ActionButton>
-                  <Controls.ActionButton color='secondary'>
+                  <Controls.ActionButton
+                    color='secondary'
+                    onClick={() => {
+                      // onDelete(item.id);
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: 'Are you sure you want to delete this record?',
+                        subTitle: 'You can not undo this operation',
+                        onConfirm: () => {
+                          onDelete(item.id);
+                        }
+                      });
+                    }}
+                  >
                     <CloseIcon fontSize='small' />
                   </Controls.ActionButton>
                 </TableCell>
@@ -241,6 +255,10 @@ function Employees() {
         <EmployeeForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
 
       {/* <div style={{ height: 400, width: '100%' }}>
         <DataGrid
